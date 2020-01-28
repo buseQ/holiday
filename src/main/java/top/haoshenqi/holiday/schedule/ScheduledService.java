@@ -23,13 +23,18 @@ public class ScheduledService {
     private HolidayDateService holidayDateService;
 
     /**
-     * 每月25日获取节日信息
+     * 每天执行定时任务
+     * 每月25日，节假日最后一天 获取或更新节日信息
      */
-    @Scheduled(cron = "0 0 1 25 * ?")
+    @Scheduled(cron = "0 0 1 * * ?")
     public void getWorkDay() {
-
         Calendar calendar = Calendar.getInstance();
         HolidayDate today = holidayDateService.getHoliday(DateUtil.getCurDayInt());
+        if(today == null){
+            holidayDateService.initWorkDay(calendar.get(Calendar.YEAR));
+            holidayDateService.initWorkDay(calendar.get(Calendar.YEAR) + 1);
+            return;
+        }
         HolidayDate nextday = holidayDateService.getHoliday(DateUtil.getCurDayInt()+1);
         if (today.getStatus() == 3 && nextday.getStatus() != 3) {
             //如果今天是节假日的最后一天（明天不是节假日)，更新节假日信息
