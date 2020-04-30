@@ -187,7 +187,6 @@ public class DateUtil {
     }
     
     public static void main(String[] args) throws Exception {
-
     }
 
     /**
@@ -317,6 +316,26 @@ public class DateUtil {
         String dateNowStr = sdf.format(d);
         return dateNowStr ;
     }
+    public static String getYesterday(){
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE,-1);
+        Date d = calendar.getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String dateNowStr = sdf.format(d);
+        return dateNowStr ;
+    }
+    public static String getTommorrow(){
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE,1);
+        Date d = calendar.getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String dateNowStr = sdf.format(d);
+        return dateNowStr ;
+    }
+
+
 }
 /**
  * Revision history

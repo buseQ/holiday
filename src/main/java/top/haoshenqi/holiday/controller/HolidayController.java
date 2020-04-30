@@ -44,9 +44,41 @@ public class HolidayController {
     @GetMapping("/today")
     public String getToday(){
         try {
+            List<HolidayDate> holidays = holidayDateService.getHolidays(DateUtil.getCurDate());
+            Integer status = holidays.get(0).getStatus();
+            if(status%2==0){
+                return "工作";
+            }else {
+                return "休息";
+            }
+        }catch (Exception e){
+            log.info(e.getMessage());
+            log.error(e.getMessage(),e);
+            return null;
+        }
+    }
+    @GetMapping("/tomorrow")
+    public String getTomorrow(){
+        try {
 
-            String curDate = DateUtil.getCurDate();
-            List<HolidayDate> holidays = holidayDateService.getHolidays(curDate);
+            List<HolidayDate> holidays = holidayDateService.getHolidays(DateUtil.getTommorrow());
+            Integer status = holidays.get(0).getStatus();
+            if(status%2==0){
+                return "工作";
+            }else {
+                return "休息";
+            }
+        }catch (Exception e){
+            log.info(e.getMessage());
+            log.error(e.getMessage(),e);
+            return null;
+        }
+    }
+    @GetMapping("/yesterday ")
+    public String getYesterday (){
+        try {
+
+            List<HolidayDate> holidays = holidayDateService.getHolidays(DateUtil.getYesterday());
             Integer status = holidays.get(0).getStatus();
             if(status%2==0){
                 return "工作";
