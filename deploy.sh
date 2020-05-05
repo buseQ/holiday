@@ -4,21 +4,22 @@ host=nas.host
 port=8089
 moduleName=`mvn -Dexec.executable='echo' -Dexec.args='${project.name}' --non-recursive exec:exec -q`
 version=`mvn -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive exec:exec -q`
-registry=nas.host:8081/repository/registory
+registry=registory.frp.haoshenqi.top
 
 function run() {
     echo "----------run-step-1----------"
     echo "停止并删除旧版的docker容器 ${moduleName}"
     docker stop ${moduleName}
     docker rm ${moduleName}
-    logPath=/home/docker/zhangshao-app-${env}/${moduleName}
+    logPath=/root/docker/${moduleName}
     echo "----------run-step-2----------"
     echo "拉取打包好的镜像 docker pull ${registry}/${moduleName}:${version}"
     docker pull ${registry}/${moduleName}:${version}
     imgId=`docker images|grep ${registry}/${moduleName} |awk 'NR==1{print $3}'`
     echo "----------run-step-3----------"
+
     echo "运行容器 run -p${port}:${port} -v${logPath}:/logs --name ${moduleName} -d ${imgId}"
-    docker run -p${port}:${port} -v${logPath}:/logs --name ${moduleName} -d ${imgId}
+    docker run -p${port}:${port} -v${logPath}:/logs --name ${moduleName} --link mysql:db.host -d ${moduleName}
 }
 function build() {
     echo "----------docker build-step-1----------"
@@ -61,11 +62,11 @@ function environment() {
         port=8072
     elif [[ $OPTARG = 'slave' ]];then
         host=192.168.0.107
-        env=dev
+        env=slave
         port=8082
     elif [[ $OPTARG = 'master' ]];then
-        host=47.97.7.180
-        env=prod
+        host=47.104.2.163
+        env=master
     fi
     echo "env is "${env}
 }

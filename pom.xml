@@ -131,6 +131,25 @@
                 </configuration>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                    <include>mapper/**/*.xml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>mapper/*.xml</include>
+                    <include>application.properties</include>
+                    <include>application-${profileActive}.properties</include>
+                    <include>*.txt</include>
+                </includes>
+            </resource>
+        </resources>
     </build>
     <profiles>
         <profile>
