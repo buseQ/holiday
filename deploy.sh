@@ -1,10 +1,10 @@
 #!/bin/bash
 env=slave
-host=nas.host
+host=home.haoshenqi.top
 port=8089
 moduleName=`mvn -Dexec.executable='echo' -Dexec.args='${project.name}' --non-recursive exec:exec -q`
 version=`mvn -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive exec:exec -q`
-registry=registory.frp.haoshenqi.top
+registry=home.haoshenqi.top:5555
 
 function run() {
     echo "----------run-step-1----------"
@@ -61,7 +61,7 @@ function environment() {
         env=test
         port=8072
     elif [[ $OPTARG = 'slave' ]];then
-        host=192.168.0.107
+        host=home.haoshenqi.top
         env=slave
         port=8082
     elif [[ $OPTARG = 'master' ]];then
